@@ -1,9 +1,14 @@
+const express = require('express');
+
 const motorcyclesRouter = require('./motorcyclesRouter')
 const usersRouter = require('./usersRouter')
 
 function routerApi(app) {
-  app.use('/api/v1/motorcycles', motorcyclesRouter);
-  app.use('/api/v1/users', usersRouter);
+  const router = express.Router();
+  app.use('/api/v1', router);
+
+  router.use('/motorcycles', motorcyclesRouter);
+  router.use('/users', usersRouter);
 }
 
 module.exports = routerApi;
