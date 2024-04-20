@@ -1,47 +1,20 @@
- const express = require('express');
- const routerApi = require('./routes/indexRouter');
+const express = require('express');
+require('dotenv').config();
 
+// API ROUTES
+const routerApi = require('./routes/index.router');
+
+// SERVER CREATION
 const app = express();
 
-app.get('/marcas', (req, res) => {
-  res.json([
-    {
-      marca: 'Yamaha',
-      modelos: []
-    },
-    {
-      marca: 'Suzuki',
-      modelos: []
-    },
-    {
-      marca: 'Kawasaki',
-      modelos: []
-    }
-  ])
-})
+// ALLOWS WRITING AND READING
+app.use(express.json());
 
-app.get('/marca/:id', (req, res) => {
-  const { id } = req.params;
-  res.json({
-    id,
-    marca: 'Honda'
-  })
-})
-
-app.get('/marcas/:marcaId/modelos/:modeloId', (req, res) => {
-  const { marcaId, modeloId } = req.params;
-  res.json({
-    marcaId,
-    modeloId
-  },)
-})
-
-
+// ROUTES
 routerApi(app);
 
-// Puerto
-//const PORT = process.env.PORT
-PORT = 3000;
+// SERVER PORT
+PORT = process.env.PORT
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
