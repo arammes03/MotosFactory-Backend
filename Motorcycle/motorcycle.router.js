@@ -3,9 +3,10 @@ const { faker }= require('@faker-js/faker')
 
 const router = express.Router();
 
+// RETURN ALL MOTORCYCLES
 router.get('/', (req, res) => {
   const motos = [];
-  const {size } = req.query;
+  const { size } = req.query;
   const limit = size || 10;
   for (let i = 0; i < limit; i++) {
     motos.push({
@@ -15,7 +16,7 @@ router.get('/', (req, res) => {
       image: faker.image.url(),
     })
   }
-  res.json(motos);
+  res.status(200).json(motos);
   /*
   res.json([
     {
@@ -66,13 +67,47 @@ router.get('/filter', (req, res) => {
   res.send('Soy un filtro manito')
 })
 
-
 router.get('/:id', (req, res) => {
   const { id } = req.params;
+  if (id === '999') {
+    res.status(404).json({
+      message: "Motorcycle not found"
+    })
+  } else {
+    res.status(200).json({
+      id,
+      marca: 'Yamaha',
+      modelo: 'YZF-R7'
+    })
+  }
+})
+
+
+router.post('/', (req, res) => {
+  const motorcycle = req.body;
+  res.status(201).json({
+    message: "Motorcycle created successfully",
+    data: motorcycle
+  })
+})
+
+// UPDATE PARCIALTY
+router.patch('/:id', (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
   res.json({
-    id,
-    marca: 'Yamaha',
-    modelo: 'YZF-R7'
+    message: "Motorcycle updated successfully",
+    data: body,
+    id
+  })
+})
+
+// DELETE FUNCTION
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  res.json({
+    message: "Motorcycle deleted successfully",
+    id
   })
 })
 
