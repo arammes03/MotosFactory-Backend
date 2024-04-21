@@ -20,6 +20,18 @@ class MotorcycleService {
     }
   }
 
+  findAll() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(this.motorcycles)
+      }, 5000)
+    })
+  }
+
+  async findOne(id) {
+    return this.motorcycles.find(motorcycle => motorcycle.id === id);
+  }
+
   create(motorcycle) {
     const newMotorcycle = {
       id: faker.string.uuid(),
@@ -29,15 +41,7 @@ class MotorcycleService {
     return newMotorcycle;
   }
 
-  findAll() {
-    return this.motorcycles;
-  }
-
-  findOne(id) {
-    return this.motorcycles.find(motorcycle => motorcycle.id === id);
-  }
-
-  update(id, changes) {
+  async update(id, changes) {
     const index = this.motorcycles.findIndex(motorcycle => motorcycle.id === id);
     if (index === -1) {
       throw new Error('Motorcycle not found');
@@ -53,7 +57,7 @@ class MotorcycleService {
     }
   }
 
-  delete(id) {
+  async delete(id) {
     const index = this.motorcycles.findIndex(motorcycle => motorcycle.id === id);
     if (index === -1) {
       throw new Error('Motorcycle not found');
