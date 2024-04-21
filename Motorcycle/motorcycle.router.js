@@ -78,29 +78,25 @@ router.post('/', async (req, res) => {
 });
 
 // UPDATE PARCIALTY
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const body = req.body;
     const motorcycle = await service.update(id, body);
     res.json(motorcycle);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 
 // DELETE FUNCTION
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const motorcycle = await service.delete(id);
     res.json(motorcycle);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 

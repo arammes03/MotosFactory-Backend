@@ -5,7 +5,11 @@ require('dotenv').config();
 const routerApi = require('./routes/index.router');
 
 // MIDDLEWARES
-const { logErrors, errorHandler } = require('./middleware/error.handler');
+const {
+  logErrors,
+  errorHandler,
+  boomErrorHandler,
+} = require('./middleware/error.handler');
 
 // CREACIÓN DEL SERVIDOR
 const app = express();
@@ -21,6 +25,7 @@ routerApi(app);
   !SIEMPRE DESPUÉS DEL ROUTING
 */
 app.use(logErrors);
+app.use(boomErrorHandler);
 app.use(errorHandler);
 
 // PUERTO DEL SERVIDOR

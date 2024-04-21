@@ -1,5 +1,7 @@
 const { faker } = require('@faker-js/faker');
 
+const boom = require('@hapi/boom');
+
 class MotorcycleService {
   constructor() {
     this.motorcycles = [];
@@ -15,6 +17,7 @@ class MotorcycleService {
         modelo: faker.vehicle.model(),
         color: faker.vehicle.color(),
         image: faker.image.url(),
+        isBlock: faker.datatype.boolean(),
       });
     }
   }
@@ -29,7 +32,16 @@ class MotorcycleService {
 
   async findOne(id) {
     // const name = this.getTotal(); /* PROBANDO MIDDLEWARE */
-    return this.motorcycles.find((motorcycle) => motorcycle.id === id);
+    const motorcycle = this.motorcycles.find(
+      (motorcycle) => motorcycle.id === id,
+    );
+    if (!motorcycle) {
+      throw boom.notFound('Motorcycle not found');
+    }
+    if (motorcycle.isBlock) {
+      throw boom.conflict('Motorcycle is blocked');
+    }
+    return motorcycle;
   }
 
   create(motorcycle) {
@@ -46,7 +58,7 @@ class MotorcycleService {
       (motorcycle) => motorcycle.id === id,
     );
     if (index === -1) {
-      throw new Error('Motorcycle not found');
+      throw boom.notFound('Motorcycle not found');
     }
     const motorcycle = this.motorcycles[index];
     this.motorcycles[index] = {
@@ -64,7 +76,7 @@ class MotorcycleService {
       (motorcycle) => motorcycle.id === id,
     );
     if (index === -1) {
-      throw new Error('Motorcycle not found');
+      throw boom.notFound('Motorcycle not found');
     }
     this.motorcycles.splice(index, 1);
     return {
