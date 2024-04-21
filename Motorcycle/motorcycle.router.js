@@ -54,13 +54,17 @@ router.get('/', async (req, res) => {
     },
   ]);
   */
-})
+});
 
 // ROUTE RETURN ONE MOTORCYCLE
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const motorcycle = await service.findOne(id);
-  res.json(motorcycle);
+router.get('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const motorcycle = await service.findOne(id);
+    res.json(motorcycle);
+  } catch (error) {
+    next(error);
+  }
 });
 
 // ROUTE CREATE MOTORCYCLE
@@ -68,10 +72,10 @@ router.post('/', async (req, res) => {
   const motorcycle = req.body;
   const newMotorcycle = await service.create(motorcycle);
   res.status(201).json({
-    message: "Motorcycle created successfully",
-    data: newMotorcycle
-  })
-})
+    message: 'Motorcycle created successfully',
+    data: newMotorcycle,
+  });
+});
 
 // UPDATE PARCIALTY
 router.patch('/:id', async (req, res) => {
@@ -82,22 +86,22 @@ router.patch('/:id', async (req, res) => {
     res.json(motorcycle);
   } catch (error) {
     res.status(404).json({
-      message: error.message
+      message: error.message,
     });
   }
-})
+});
 
 // DELETE FUNCTION
 router.delete('/:id', async (req, res) => {
   try {
-  const { id } = req.params;
-  const motorcycle = await service.delete(id);
-  res.json(motorcycle);
+    const { id } = req.params;
+    const motorcycle = await service.delete(id);
+    res.json(motorcycle);
   } catch (error) {
     res.status(404).json({
-      message: error.message
+      message: error.message,
     });
   }
-})
+});
 
 module.exports = router;

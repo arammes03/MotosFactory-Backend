@@ -1,20 +1,30 @@
 const express = require('express');
 require('dotenv').config();
 
-// API ROUTES
+// RUTAS API
 const routerApi = require('./routes/index.router');
 
-// SERVER CREATION
+// MIDDLEWARES
+const { logErrors, errorHandler } = require('./middleware/error.handler');
+
+// CREACIÓN DEL SERVIDOR
 const app = express();
 
-// ALLOWS WRITING AND READING
+// PERMITE LECTURA Y ESCRITURA DEL JSON
 app.use(express.json());
 
-// ROUTES
+// RUTAS DE LA APP
 routerApi(app);
 
-// SERVER PORT
-PORT = process.env.PORT
+/*
+  CONTROLADOR DE ERRORES
+  !SIEMPRE DESPUÉS DEL ROUTING
+*/
+app.use(logErrors);
+app.use(errorHandler);
+
+// PUERTO DEL SERVIDOR
+PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);

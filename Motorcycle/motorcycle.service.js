@@ -1,7 +1,6 @@
-const { faker }= require('@faker-js/faker')
+const { faker } = require('@faker-js/faker');
 
 class MotorcycleService {
-
   constructor() {
     this.motorcycles = [];
     this.generate();
@@ -16,33 +15,36 @@ class MotorcycleService {
         modelo: faker.vehicle.model(),
         color: faker.vehicle.color(),
         image: faker.image.url(),
-      })
+      });
     }
   }
 
   findAll() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(this.motorcycles)
-      }, 5000)
-    })
+        resolve(this.motorcycles);
+      }, 5000);
+    });
   }
 
   async findOne(id) {
-    return this.motorcycles.find(motorcycle => motorcycle.id === id);
+    // const name = this.getTotal(); /* PROBANDO MIDDLEWARE */
+    return this.motorcycles.find((motorcycle) => motorcycle.id === id);
   }
 
   create(motorcycle) {
     const newMotorcycle = {
       id: faker.string.uuid(),
-      ...motorcycle
-    }
-    this,this.motorcycles.push(newMotorcycle);
+      ...motorcycle,
+    };
+    this, this.motorcycles.push(newMotorcycle);
     return newMotorcycle;
   }
 
   async update(id, changes) {
-    const index = this.motorcycles.findIndex(motorcycle => motorcycle.id === id);
+    const index = this.motorcycles.findIndex(
+      (motorcycle) => motorcycle.id === id,
+    );
     if (index === -1) {
       throw new Error('Motorcycle not found');
     }
@@ -50,15 +52,17 @@ class MotorcycleService {
     this.motorcycles[index] = {
       ...motorcycle,
       ...changes,
-    }
+    };
     return {
       message: 'Motorcycle updated successfully',
-      id: this.motorcycles[index]
-    }
+      id: this.motorcycles[index],
+    };
   }
 
   async delete(id) {
-    const index = this.motorcycles.findIndex(motorcycle => motorcycle.id === id);
+    const index = this.motorcycles.findIndex(
+      (motorcycle) => motorcycle.id === id,
+    );
     if (index === -1) {
       throw new Error('Motorcycle not found');
     }
@@ -66,7 +70,7 @@ class MotorcycleService {
     return {
       message: 'Motorcycle deleted successfully',
       id,
-    }
+    };
   }
 }
 
