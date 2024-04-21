@@ -1,22 +1,15 @@
+// EXPRESS JS
 const express = require('express');
-const { faker }= require('@faker-js/faker')
-
 const router = express.Router();
 
-// RETURN ALL MOTORCYCLES
+// SERVICES
+const MotorcycleService = require('./motorcycle.service');
+const service = new MotorcycleService();
+
+// ROUTE RETURN ALL MOTORCYCLES
 router.get('/', (req, res) => {
-  const motos = [];
-  const { size } = req.query;
-  const limit = size || 10;
-  for (let i = 0; i < limit; i++) {
-    motos.push({
-      marca: faker.vehicle.manufacturer(),
-      modelo: faker.vehicle.model(),
-      color: faker.vehicle.color(),
-      image: faker.image.url(),
-    })
-  }
-  res.status(200).json(motos);
+  const motorcycles = service.findAll();
+  res.status(200).json(motorcycles);
   /*
   res.json([
     {
@@ -63,31 +56,20 @@ router.get('/', (req, res) => {
   */
 })
 
-router.get('/filter', (req, res) => {
-  res.send('Soy un filtro manito')
-})
-
+// ROUTE RETURN ONE MOTORCYCLE
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  if (id === '999') {
-    res.status(404).json({
-      message: "Motorcycle not found"
-    })
-  } else {
-    res.status(200).json({
-      id,
-      marca: 'Yamaha',
-      modelo: 'YZF-R7'
-    })
-  }
-})
+  const motorcycle = service.findOne(id);
+  res.json(motorcycle);
+});
 
-
+// ROUTE CREATE MOTORCYCLE
 router.post('/', (req, res) => {
   const motorcycle = req.body;
+  const newMotorcycle = service.create(motorcycle);
   res.status(201).json({
     message: "Motorcycle created successfully",
-    data: motorcycle
+    data: newMotorcycle
   })
 })
 
@@ -95,20 +77,15 @@ router.post('/', (req, res) => {
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.json({
-    message: "Motorcycle updated successfully",
-    data: body,
-    id
-  })
+  const motorcycle = service.update(id, body);
+  res.json(motorcycle);
 })
 
 // DELETE FUNCTION
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
-    message: "Motorcycle deleted successfully",
-    id
-  })
+  const motorcycle = service.delete(id);
+  res.json(motorcycle);
 })
 
 module.exports = router;
