@@ -12,7 +12,7 @@ function validatorHandler(schema, property) {
     const { error } = schema.validate(data, { abortEarly: false }); // validamos los datos con el schema y abortEarly para que envie todos los errores al mismo tiempo
     // Manejamos si manda algún error al validar el schema
     if (error) {
-      next(boom.badRequest(error));
+      next(boom.badRequest(error)); // Enviamos el error al middleware de errores
     }
     next(); // Si no hay errores entonces pasamos al siguiente middleware
   };

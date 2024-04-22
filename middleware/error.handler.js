@@ -24,7 +24,7 @@ function boomErrorHandler(error, req, res, next) {
     const { output } = error; // Leemos la salida del error y la guardamos
     res.status(output.statusCode).json(output.payload); // Mostramos la información del error
   } else next(error); // Si no es de tipo boom entonces lo pasamos al siguiente middleware de error
-  console.log('errorHandler middleware');
+  console.log('boomErrorHandler middleware');
 }
 
 // Exportamos nuestros middlewares como modulos

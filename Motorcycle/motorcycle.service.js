@@ -1,3 +1,4 @@
+// Libreria FAKER que aporta datos aleatorios
 const { faker } = require('@faker-js/faker');
 
 const boom = require('@hapi/boom');
@@ -15,7 +16,6 @@ class MotorcycleService {
         id: faker.string.uuid(),
         marca: faker.vehicle.manufacturer(),
         modelo: faker.vehicle.model(),
-        color: faker.vehicle.color(),
         image: faker.image.url(),
         isBlock: faker.datatype.boolean(),
       });
@@ -49,7 +49,7 @@ class MotorcycleService {
       id: faker.string.uuid(),
       ...motorcycle,
     };
-    this, this.motorcycles.push(newMotorcycle);
+    this.motorcycles.push(newMotorcycle);
     return newMotorcycle;
   }
 
