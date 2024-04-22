@@ -1,28 +1,18 @@
 const express = require('express');
-
 const router = express.Router();
 
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-  res.json({
-    id,
-    name: 'Alfonso',
-    surname: 'Ramirez',
-    age: 20,
-    role: 'Full Stack Developer'
-  })
-})
+// Importamos el servicio de usuarios
+const UserService = require('./user.service');
+// Creamos el servicio de usuarios
+const service = new UserService();
 
-router.get('/', (req, res) => {
-  const { limit, offset } = req.query;
-  if (limit && offset) {
-    res.json({
-      limit,
-      offset
-    });
-  } else {
-    res.send('No hay parametros')
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await service.findAll();
+    res.json(users);
+  } catch (error) {
+    next(error);
   }
-})
+});
 
 module.exports = router;
