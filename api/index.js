@@ -5,14 +5,14 @@ require('dotenv').config();
 const cors = require('cors');
 
 // RUTAS API
-const routerApi = require('./api/routes/index.router');
+const routerApi = require('./routes/index.router');
 
 // MIDDLEWARES
 const {
   logErrors,
   errorHandler,
   boomErrorHandler,
-} = require('./api/middleware/error.handler');
+} = require('./middleware/error.handler');
 
 // CREACIÓN DEL SERVIDOR
 const app = express();
