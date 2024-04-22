@@ -5,14 +5,14 @@ require('dotenv').config();
 const cors = require('cors');
 
 // RUTAS API
-const routerApi = require('./routes/index.router');
+const routerApi = require('./api/routes/index.router');
 
 // MIDDLEWARES
 const {
   logErrors,
   errorHandler,
   boomErrorHandler,
-} = require('./middleware/error.handler');
+} = require('./api/middleware/error.handler');
 
 // CREACIÓN DEL SERVIDOR
 const app = express();
@@ -25,17 +25,17 @@ app.use(express.json());
    Definimos el origen permitido para las solicitudes
   ! "*" es para cualquier origen (MENOS SEGURO)
   */
-const whiteList = ['http://127.0.0.1:5500']; // Lista de dominios permitidos
+const whiteList = ['http://localhost:3000', 'http://127.0.0.1:5500']; // Lista de dominios permitidos
 
 var corsOptions = {
   // Vamos a comprobar que ese dominio de origen está en la lista de permitidos
   origin: (origin, callback) => {
-    if (whiteList.includes(origin)) {
+    if (whiteList.includes(origin) || !origin) {
       // Si está en la lista
       callback(null, true); // No hay error, el origen es permitido
     } else {
       // En caso de no estar en la lista
-      callback(new Error('Acceso no permitido')); // Ese dominio no tiene acceso y muestra un error
+      callback(new Error('Acceso no permitido'), false); // Ese dominio no tiene acceso y muestra un error
     }
   },
 };
