@@ -1,39 +1,22 @@
 // Libreria FAKER que aporta datos aleatorios
-const { faker } = require('@faker-js/faker');
+const { faker, da } = require('@faker-js/faker');
 
 // Importamos el pool de conexiones a la base de datos
 const { pool } = require('../libs/postgres');
+
+// Importamos sequelize
+const sequelize = require('../libs/sequelize');
 
 // Importamos BOOM para manejar errores
 const boom = require('@hapi/boom');
 
 class MotorcycleService {
-  constructor() {
-    this.motorcycles = [];
-    this.generate();
-    this.pool = pool;
-    this.pool.on('error', (error) => {
-      throw boom.serverUnavailable(error.message);
-    });
-  }
-
-  generate() {
-    const limit = 10;
-    for (let i = 0; i < limit; i++) {
-      this.motorcycles.push({
-        id: faker.string.uuid(),
-        marca: faker.vehicle.manufacturer(),
-        modelo: faker.vehicle.model(),
-        image: faker.image.url(),
-        isBlock: faker.datatype.boolean(),
-      });
-    }
-  }
+  constructor() {}
 
   async findAll() {
     const query = 'SELECT * FROM users';
-    const rta = await this.pool.query(query);
-    return rta.rows;
+    const [data] = await sequelize.query(query);
+    return data;
   }
 
   async findOne(id) {
