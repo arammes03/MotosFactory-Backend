@@ -1,12 +1,20 @@
 // Libreria FAKER que aporta datos aleatorios
 const { faker } = require('@faker-js/faker');
 
+// Importamos el pool de conexiones a la base de datos
+const { pool } = require('../libs/postgres');
+
+// Importamos BOOM para manejar errores
 const boom = require('@hapi/boom');
 
 class MotorcycleService {
   constructor() {
     this.motorcycles = [];
     this.generate();
+    this.pool = pool;
+    this.pool.on('error', (error) => {
+      throw boom.serverUnavailable(error.message);
+    });
   }
 
   generate() {
@@ -22,12 +30,10 @@ class MotorcycleService {
     }
   }
 
-  findAll() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(this.motorcycles);
-      }, 5000);
-    });
+  async findAll() {
+    const query = 'SELECT * FROM users';
+    const rta = await this.pool.query(query);
+    return rta.rows;
   }
 
   async findOne(id) {
