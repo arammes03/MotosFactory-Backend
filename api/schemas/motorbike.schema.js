@@ -15,27 +15,27 @@ const color = Joi.string().alphanum();
 const image = Joi.string().uri();
 
 //
-const createMotorcycleSchema = Joi.object({
+const createMotorbikeSchema = Joi.object({
   marca: marca.required(),
   modelo: modelo.required(),
   image,
   color,
 });
 
-const updateMotorcycleSchema = Joi.object({
+const updateMotorbikeSchema = Joi.object({
   marca: marca,
   modelo: modelo,
   image: image,
   color: color,
 });
 
-const getMotorcycleSchema = Joi.object({
+const getMotorbikeSchema = Joi.object({
   id: id.required(),
 });
 
 // Exportamos nuestros schemas como módulos
 module.exports = {
-  createMotorcycleSchema,
-  updateMotorcycleSchema,
-  getMotorcycleSchema,
+  createMotorbikeSchema,
+  updateMotorbikeSchema,
+  getMotorbikeSchema,
 };
