@@ -20,50 +20,6 @@ const {
 router.get('/', async (req, res) => {
   const motorcycles = await service.findAll(); // Llamamos a la función de nuestro servicio que muestra todas las motocicletas
   res.status(200).json(motorcycles);
-  /*
-  res.json([
-    {
-      marca: 'Yamaha',
-      modelo: 'YZF-R125'
-    },
-    {
-      marca: 'Yamaha',
-      modelo: 'YZF-R15'
-    },
-    {
-      marca: 'Yamaha',
-      modelo: 'YZF-R3'
-    },
-    {
-      marca: 'Yamaha',
-      modelo: 'YZF-R6'
-    },
-    {
-      marca: 'Yamaha',
-      modelo: 'YZF-R7'
-    },
-    {
-      marca: 'Yamaha',
-      modelo: 'YZF-R1'
-    },
-    {
-      marca: 'Kawasaki',
-      modelo: 'ZX-400RR'
-    },
-    {
-      marca: 'Kawasaki',
-      modelo: 'ZX-6R'
-    },
-    {
-      marca: 'Kawasaki',
-      modelo: 'ZX-10R'
-    },
-    {
-      marca: 'Suzuki',
-      modelo: 'GSX600R'
-    },
-  ]);
-  */
 });
 
 // RUTA QUE DEVUELVE UNA MOTOCICLETA

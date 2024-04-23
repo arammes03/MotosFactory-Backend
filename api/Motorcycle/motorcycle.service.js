@@ -5,7 +5,7 @@ const { faker, da } = require('@faker-js/faker');
 const { pool } = require('../libs/postgres');
 
 // Importamos sequelize
-const sequelize = require('../libs/sequelize');
+const { models } = require('../libs/sequelize');
 
 // Importamos BOOM para manejar errores
 const boom = require('@hapi/boom');
@@ -14,9 +14,8 @@ class MotorcycleService {
   constructor() {}
 
   async findAll() {
-    const query = 'SELECT * FROM users';
-    const [data] = await sequelize.query(query);
-    return data;
+    const rta = await models.Motorbike.findAll();
+    return rta;
   }
 
   async findOne(id) {
