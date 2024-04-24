@@ -37,14 +37,14 @@ class UserService {
 
   // Función para actualizar un usuario en la base de datos
   async updateUser(id, userChanges) {
-    const user = user.findById(id); // Usamos nuestro findById para consultar un usuario
-    const rta = await user.updateUser(userChanges); // Actualizamos el usuario
+    const user = await this.findById(id); // Usamos nuestro findById para consultar un usuario
+    const rta = await user.update(userChanges); // Actualizamos el usuario
     return rta; // Devolvemos el usuario actualizado
   }
 
   // Función para eliminar un usuario de la base de datos
   async deleteUser(id) {
-    const user = user.findById(id); // Usamos nuestro findById para consultar un usuario
+    const user = await this.findById(id); // Usamos nuestro findById para consultar un usuario
     await user.destroy(); // Eliminamos el usuario
     return { id }; // Devolvemos el id del usuario eliminado
   }

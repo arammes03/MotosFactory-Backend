@@ -58,6 +58,23 @@ router.post(
   },
 );
 
+// Ruta para actualizar un usuario por su id
+router.patch(
+  '/:id', // Buscamos que se le pase el id del usuario por parametros
+  validatorHandler(getUserSchema, 'params'), // Usamos nuestro middleware de validación para validar el id de los parametros
+  validatorHandler(updateUserSchema, 'body'), // Una vez validado el id, validamos el contenido del body
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const user = await service.updateUser(id, body);
+      res.json(user);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 // Ruta para eliminar un usuario por su id
 router.delete(
   '/:id',
@@ -65,7 +82,7 @@ router.delete(
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.deleteUser(id);
+      await service.deleteUser(id);
       res.json({
         user: id,
         message: 'User deleted successfully',
